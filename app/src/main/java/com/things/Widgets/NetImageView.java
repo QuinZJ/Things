@@ -2,6 +2,7 @@ package com.things.Widgets;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
@@ -50,7 +51,7 @@ public class NetImageView extends ImageView {
     }
 
     @OnResponse(TAG_GET_IMAGE)
-    private void func(ImageGetter imageGetter) {
-        this.setImageBitmap(imageGetter.getBitmap());
+    private void func(Bitmap bitmap) {
+        this.setImageBitmap(bitmap);
     }
 }

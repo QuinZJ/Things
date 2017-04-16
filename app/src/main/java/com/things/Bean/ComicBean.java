@@ -4,6 +4,7 @@ package com.things.Bean;
  * Created by asdf on 2017/4/16.
  */
 
+@HTMLParseToken("div.mhjsbody.clearfix")
 public class ComicBean extends HTMLBean {
     @HTMLToken(elem = "img.fm", type = HTMLToken.Type.ATTR, attr = "src")
     public String pic;

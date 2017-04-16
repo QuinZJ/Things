@@ -6,7 +6,8 @@ import com.things.Bean.ComicBean;
 import com.things.Bean.HTMLBeanParser;
 import com.things.Bean.SummaryBean.ComicSummaryBean;
 import com.things.Net.OnResponse;
-import com.things.Spider.HTMLGetter.HTMLGetter;
+import com.things.Spider.HTMLGetter.DefaultHTMLGetter;
+import com.things.Spider.HTMLGetter.HTMLBeanGetter;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -27,29 +28,30 @@ public class Spider {
 
     public void tag(String tag) {
         String url = String.format(HOST + "%s.html", tag);
-        HTMLGetter.with(this).load(url).into(MSG_TAG);
+        new DefaultHTMLGetter(MSG_TAG, this).open(url).send();
     }
 
     public void book(String bookName) {
         String url = String.format(HOST + "%s", bookName);
-        HTMLGetter.with(this).load(url).into(MSG_BOOK);
+        new HTMLBeanGetter<ComicBean>(MSG_BOOK, this)
+                .parse(ComicBean.class)
+                .open(url)
+                .send();
     }
 
 
     @OnResponse(MSG_TAG)
-    private void getTag(HTMLGetter htmlGetter) {
-        String html = htmlGetter.getHtml();
+    private void getTag(String html) {
         Document doc = Jsoup.parse(html);
-        for (ComicSummaryBean comicSummaryBean : HTMLBeanParser.parseAll(doc.select(".sdiv"), ComicSummaryBean.class)) {
+        for (ComicSummaryBean comicSummaryBean : HTMLBeanParser.parseAll(doc, ComicSummaryBean.class)) {
             Log.e("bean", comicSummaryBean.toString());
         }
     }
 
     @OnResponse(MSG_BOOK)
-    private void getBook(HTMLGetter htmlGetter) {
-        String html = htmlGetter.getHtml();
-        Document doc = Jsoup.parse(html);
-        Log.e("bean", HTMLBeanParser.parse(doc.select("div.mhjsbody.clearfix").first(), ComicBean.class).toString());
+    private void getBook(ComicBean comicBean) {
+        Log.e("bean", comicBean.toString());
     }
+
 
 }

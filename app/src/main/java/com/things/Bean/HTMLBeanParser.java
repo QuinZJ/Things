@@ -1,7 +1,7 @@
 package com.things.Bean;
 
+import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -39,9 +39,9 @@ public class HTMLBeanParser {
         return bean;
     }
 
-    public static <T> ArrayList<T> parseAll(Elements elements, Class<T> tClass) {
+    public static <T> ArrayList<T> parseAll(Document document, Class<T> tClass) {
         ArrayList<T> beans = new ArrayList<>();
-        for (Element element : elements) {
+        for (Element element : document.select(tClass.getAnnotation(HTMLParseToken.class).value())) {
             beans.add(HTMLBeanParser.parse(element, tClass));
         }
         return beans;

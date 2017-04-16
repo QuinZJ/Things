@@ -1,12 +1,14 @@
 package com.things.Bean.SummaryBean;
 
 import com.things.Bean.HTMLBean;
+import com.things.Bean.HTMLParseToken;
 import com.things.Bean.HTMLToken;
 
 /**
  * Created by asdf on 2017/4/16.
  */
 
+@HTMLParseToken(".sdiv")
 public class ComicSummaryBean extends HTMLBean {
     @HTMLToken(type = HTMLToken.Type.ATTR, attr = "href")
     public String url;

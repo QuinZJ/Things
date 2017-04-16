@@ -8,7 +8,7 @@ import java.lang.reflect.Method;
  * Created by asdf on 2017/4/16.
  */
 
-public abstract class NetRequest<T> {
+public abstract class NetRequest<SubRequest, Result> {
     public static final String METHOD_GET = "GET";
     public static final String METHOD_POST = "POST";
 
@@ -37,6 +37,7 @@ public abstract class NetRequest<T> {
 
     public abstract void handleInputStream(InputStream inputStream);
     public abstract void handleOutputStream(OutputStream outputStream);
+    public abstract Result getResult();
 
     public String getUrl() {
         return url;
@@ -46,14 +47,14 @@ public abstract class NetRequest<T> {
         return method;
     }
 
-    public T open(String url) {
+    public SubRequest open(String url) {
         return this.open(METHOD_GET, url);
     }
 
-    public T open(String method, String url) {
+    public SubRequest open(String method, String url) {
         this.url = url;
         this.method = method;
-        return (T) this;
+        return (SubRequest) this;
     }
 
     public void send() {
@@ -68,7 +69,7 @@ public abstract class NetRequest<T> {
                 this.onFail.invoke(this.context, this);
             } else {
                 if (this.onSuccess == null) return;
-                this.onSuccess.invoke(this.context, this);
+                this.onSuccess.invoke(this.context, this.getResult());
             }
         } catch (Exception e) {
             e.printStackTrace();

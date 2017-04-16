@@ -13,17 +13,13 @@ import java.io.PrintWriter;
  * Created by asdf on 2017/4/16.
  */
 
-public class HTMLGetter extends NetRequest<HTMLGetter> {
+public abstract class HTMLGetter<Result> extends NetRequest<HTMLGetter, Result> {
 
     private String html;
     private String postData = "";
 
-    private HTMLGetter(int tag, Object context) {
+    public HTMLGetter(int tag, Object context) {
         super(tag, context);
-    }
-
-    public static Builder with(Object context) {
-        return new Builder(context);
     }
 
     private HTMLGetter setPostData(String postData) {
@@ -55,41 +51,10 @@ public class HTMLGetter extends NetRequest<HTMLGetter> {
         writer.close();
     }
 
+    public abstract Result getResult();
+
     public String getHtml() {
         return html;
     }
 
-    public static class Builder {
-
-        private Object context;
-        private String method;
-        private String url;
-        private String data;
-
-        public Builder(Object context) {
-            this.context = context;
-        }
-
-        public Builder args(String data) {
-            this.data = data;
-            return this;
-        }
-
-        public Builder load(String url) {
-            return this.load(METHOD_GET, url);
-        }
-
-        public Builder load(String method, String url) {
-            this.method = method;
-            this.url = url;
-            return this;
-        }
-
-        public void into(int what) {
-            new HTMLGetter(what, this.context)
-                    .open(this.method, this.url)
-                    .setPostData(this.data)
-                    .send();
-        }
-    }
 }

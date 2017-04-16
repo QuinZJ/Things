@@ -12,7 +12,7 @@ import java.io.OutputStream;
  * Created by asdf on 2017/4/16.
  */
 
-public class ImageGetter extends NetRequest<ImageGetter> {
+public class ImageGetter extends NetRequest<ImageGetter, Bitmap> {
     private Bitmap bitmap;
 
 
@@ -28,6 +28,11 @@ public class ImageGetter extends NetRequest<ImageGetter> {
     @Override
     public void handleOutputStream(OutputStream outputStream) {
 
+    }
+
+    @Override
+    public Bitmap getResult() {
+        return this.bitmap;
     }
 
     public Bitmap getBitmap() {
