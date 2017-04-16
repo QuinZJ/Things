@@ -12,11 +12,11 @@ import java.io.OutputStream;
  * Created by asdf on 2017/4/16.
  */
 
-public class ImageGetter extends NetRequest {
+public class ImageGetter extends NetRequest<ImageGetter> {
     private Bitmap bitmap;
 
 
-    public ImageGetter(String tag, Object context) {
+    public ImageGetter(int tag, Object context) {
         super(tag, context);
     }
 

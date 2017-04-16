@@ -8,7 +8,9 @@ public class NetClient {
     private static NetClient instance = null;
     private NetWorker worker = new NetWorker();
 
-    private NetClient() {}
+    private NetClient() {
+        this.worker.start();
+    }
 
     public static NetClient getInstance() {
         if (NetClient.instance == null) {

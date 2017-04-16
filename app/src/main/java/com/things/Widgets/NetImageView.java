@@ -15,7 +15,7 @@ import com.things.R;
 
 public class NetImageView extends ImageView {
 
-    private static final String TAG_GET_IMAGE = "get";
+    private static final int TAG_GET_IMAGE = 0;
 
     private TypedArray typedArray;
 

@@ -30,12 +30,12 @@ public class Picasso {
         private ImageView imageView;
 
         public ImageLoader(String url) {
-            new ImageGetter("into", this)
+            new ImageGetter(1, this)
                     .open(url)
                     .send();
         }
 
-        @OnResponse("into")
+        @OnResponse(1)
         private void func(ImageGetter imageGetter) {
             if (this.imageView == null) return;
             this.imageView.setImageBitmap(imageGetter.getBitmap());
